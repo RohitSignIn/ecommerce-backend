@@ -1,31 +1,58 @@
 const errorResponse = require("../utils/error_response");
+const successResponse = require("../utils/success_response");
+const CategoryService = require("../services/category_service");
+const CategoryRepository = require("../repository/category_repository");
+const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 
-function addCategory(req, res) {
+const categoryService = new CategoryService(new CategoryRepository());
+
+async function create(req, res) {
   try {
-    await;
+    const response = await categoryService.create(req.body);
+    return res
+      .status(StatusCodes.CREATED)
+      .json(successResponse("Category", ReasonPhrases.CREATED, response));
   } catch (error) {
     res.status(error.statusCode).json(errorResponse(error.reason, error));
   }
 }
 
-function getCategoryById(req, res) {
+async function fetchAll(req, res) {
   try {
-    await;
+    const response = await categoryService.fetchAll();
+    return res
+      .status(StatusCodes.OK)
+      .json(successResponse("Category", ReasonPhrases.OK, response));
   } catch (error) {
     res.status(error.statusCode).json(errorResponse(error.reason, error));
   }
 }
 
-function getAllCategory(req, res) {
+async function fetchById(req, res) {
   try {
-    await;
+    const response = await categoryService.fetchById(req.params.id);
+    return res
+      .status(StatusCodes.OK)
+      .json(successResponse("Category", ReasonPhrases.OK, response));
+  } catch (error) {
+    res.status(error.statusCode).json(errorResponse(error.reason, error));
+  }
+}
+
+async function remove(req, res) {
+  try {
+    const response = await categoryService.remove(req.params.id);
+    return res
+      .status(StatusCodes.ACCEPTED)
+      .json(successResponse("Category", "Deleted Successfully", response));
   } catch (error) {
     res.status(error.statusCode).json(errorResponse(error.reason, error));
   }
 }
 
 module.exports = {
-  addCategory,
-  getAllCategory,
-  getCategoryById,
+  create,
+  fetchAll,
+  fetchById,
+  remove,
 };
