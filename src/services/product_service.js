@@ -1,31 +1,33 @@
 const InternalServerError = require("../errors/internal_server_error");
 const NotFoundError = require("../errors/not_found_error");
 
-class CategoryService {
-  constructor(categoryRepository) {
-    this.categoryRepository = categoryRepository;
+class ProductService {
+  constructor(productRepository) {
+    this.productRepository = productRepository;
   }
 
-  async create(category) {
+  async create(product) {
     try {
-      const response = await this.categoryRepository.create(
-        category.name,
-        category.description
+      const response = await this.productRepository.create(
+        product.title,
+        product.price,
+        product.description,
+        product.image
       );
       return response;
     } catch (error) {
-      console.log("Category Service error" + error);
+      console.log("Product Service error" + error);
       throw new InternalServerError();
     }
   }
 
   async fetchAll() {
     try {
-      const response = await this.categoryRepository.fetch();
-      if (!response.length) throw new NotFoundError("Category", "fetch", "all");
+      const response = await this.productRepository.fetch();
+      if (!response.length) throw new NotFoundError("Product", "fetch", "all");
       return response;
     } catch (error) {
-      console.log("Category Service error" + error);
+      console.log("Product Service error" + error);
       if (error.name === "NotFoundError") throw error;
       throw new InternalServerError();
     }
@@ -33,14 +35,14 @@ class CategoryService {
 
   async fetchById(id) {
     try {
-      const response = await this.categoryRepository.fetch(id);
+      const response = await this.productRepository.fetch(id);
       if (!response) {
         console.log("Hello");
-        throw new NotFoundError("Category", "id", id);
+        throw new NotFoundError("Product", "id", id);
       }
       return response;
     } catch (error) {
-      console.log("Category Service error" + error);
+      console.log("Product Service error" + error);
       if (error.name === "NotFoundError") throw error;
       throw new InternalServerError();
     }
@@ -48,14 +50,14 @@ class CategoryService {
 
   async remove(id) {
     try {
-      const response = await this.categoryRepository.remove(id);
+      const response = await this.productRepository.remove(id);
       return response;
     } catch (error) {
-      console.log("Category Service error" + error);
+      console.log("Product Service error" + error);
       if (error.name === "NotFoundError") throw error;
       throw new InternalServerError();
     }
   }
 }
 
-module.exports = CategoryService;
+module.exports = ProductService;

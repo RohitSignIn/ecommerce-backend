@@ -1,7 +1,7 @@
 const NotFoundError = require("../errors/not_found_error");
 const categoryModel = require("../models/category_model");
 
-class categoryRepository {
+class CategoryRepository {
   async create(name, description) {
     try {
       const response = await categoryModel.create({
@@ -43,4 +43,4 @@ class categoryRepository {
   }
 }
 
-module.exports = categoryRepository;
+module.exports = CategoryRepository;
