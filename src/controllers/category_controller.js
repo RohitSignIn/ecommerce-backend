@@ -1,8 +1,10 @@
-const errorResponse = require("../utils/error_response");
-const successResponse = require("../utils/success_response");
+const { StatusCodes, ReasonPhrases } = require("http-status-codes");
+
 const CategoryService = require("../services/category_service");
 const CategoryRepository = require("../repository/category_repository");
-const { StatusCodes, ReasonPhrases } = require("http-status-codes");
+
+const errorResponse = require("../utils/error_response");
+const successResponse = require("../utils/success_response");
 
 const categoryService = new CategoryService(new CategoryRepository());
 

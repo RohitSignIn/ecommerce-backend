@@ -35,7 +35,6 @@ class CategoryService {
     try {
       const response = await this.categoryRepository.fetch(id);
       if (!response) {
-        console.log("Hello");
         throw new NotFoundError("Category", "id", id);
       }
       return response;

@@ -37,7 +37,6 @@ class ProductService {
     try {
       const response = await this.productRepository.fetch(id);
       if (!response) {
-        console.log("Hello");
         throw new NotFoundError("Product", "id", id);
       }
       return response;

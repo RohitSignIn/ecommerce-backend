@@ -9,6 +9,7 @@ const DB_HOST = process.env.DB_HOST;
 const DB_ALTER = process.env.DB_ALTER;
 const DB_FORCE = process.env.DB_FORCE;
 const DIALECT = process.env.DIALECT;
+const SALT_ROUND = process.env.SALT_ROUND;
 
 module.exports = {
   PORT,
@@ -19,4 +20,5 @@ module.exports = {
   DB_ALTER,
   DB_FORCE,
   DIALECT,
+  SALT_ROUND,
 };
