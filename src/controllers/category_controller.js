@@ -30,12 +30,14 @@ async function fetchAll(req, res) {
   }
 }
 
-async function fetchById(req, res) {
+async function fetchProductsByCategory(req, res) {
   try {
-    const response = await categoryService.fetchById(req.params.id);
+    const response = await categoryService.fetchProductsByCategory(
+      req.params.name
+    );
     return res
       .status(StatusCodes.OK)
-      .json(successResponse("Category", ReasonPhrases.OK, response));
+      .json(successResponse("user", ReasonPhrases.OK, response));
   } catch (error) {
     res.status(error.statusCode).json(errorResponse(error.reason, error));
   }
@@ -54,7 +56,7 @@ async function remove(req, res) {
 
 module.exports = {
   create,
-  fetchAll,
-  fetchById,
   remove,
+  fetchAll,
+  fetchProductsByCategory,
 };

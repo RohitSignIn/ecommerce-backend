@@ -31,11 +31,13 @@ class CategoryService {
     }
   }
 
-  async fetchById(id) {
+  async fetchProductsByCategory(name) {
     try {
-      const response = await this.categoryRepository.fetch(id);
+      const response = await this.categoryRepository.fetchProductsByCategory(
+        name
+      );
       if (!response) {
-        throw new NotFoundError("Category", "id", id);
+        throw new NotFoundError("CategoryProduct", "name", name);
       }
       return response;
     } catch (error) {

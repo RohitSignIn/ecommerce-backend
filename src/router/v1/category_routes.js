@@ -3,13 +3,13 @@ const categoryRoute = require("express").Router();
 const {
   create,
   fetchAll,
-  fetchById,
   remove,
+  fetchProductsByCategory,
 } = require("../../controllers/category_controller");
 
 categoryRoute.post("/", create);
 categoryRoute.get("/", fetchAll);
-categoryRoute.get("/:id", fetchById);
+categoryRoute.get("/:name", fetchProductsByCategory);
 categoryRoute.delete("/:id", remove);
 
 module.exports = categoryRoute;

@@ -1,5 +1,5 @@
+const { userModel } = require("../models/index");
 const NotFoundError = require("../errors/not_found_error");
-const userModel = require("../models/user_model");
 
 class UserRepository {
   async create(email, password) {

@@ -1,5 +1,5 @@
+const { categoryModel } = require("../models/index");
 const NotFoundError = require("../errors/not_found_error");
-const categoryModel = require("../models/category_model");
 
 class CategoryRepository {
   async create(name, description) {
@@ -15,15 +15,22 @@ class CategoryRepository {
     }
   }
 
-  async fetch(id = null) {
+  async fetch() {
     try {
-      let response;
-      if (id != null) {
-        response = await categoryModel.findOne({ where: { id: id } });
-      } else {
-        response = await categoryModel.findAll();
-      }
+      const response = await categoryModel.findAll();
       return response;
+    } catch (error) {
+      console.log("Category Repository Error: " + error);
+      throw error;
+    }
+  }
+
+  async fetchProductsByCategory(name) {
+    try {
+      const category = await categoryModel.findOne({ where: { name: name } });
+      if (!category) throw new NotFoundError("Category", "name", name);
+      const categoryProducts = await category.getProducts();
+      return categoryProducts;
     } catch (error) {
       console.log("Category Repository Error: " + error);
       throw error;

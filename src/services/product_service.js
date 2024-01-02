@@ -12,7 +12,8 @@ class ProductService {
         product.title,
         product.price,
         product.description,
-        product.image
+        product.image,
+        product.categoryId
       );
       return response;
     } catch (error) {

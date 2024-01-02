@@ -1,15 +1,17 @@
+const { productModel } = require("../models/index");
 const NotFoundError = require("../errors/not_found_error");
-const productModel = require("../models/product_model");
 
 class ProductRepository {
-  async create(title, price, description, image) {
+  async create(title, price, description, image, categoryId) {
     try {
       const response = await productModel.create({
         title,
         price,
         description,
         image,
+        categoryId,
       });
+      // response.setCategory(categoryId);
       return response;
     } catch (error) {
       console.log("Product Repository Error: " + error);

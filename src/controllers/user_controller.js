@@ -54,7 +54,7 @@ async function remove(req, res) {
 
 module.exports = {
   create,
+  remove,
   fetchAll,
   fetchById,
-  remove,
 };
