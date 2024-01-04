@@ -20,10 +20,7 @@ const productModel = DB.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    categoryId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
+    // categoryId - auto from sequelize relation
   },
   { timestamps: false }
 );

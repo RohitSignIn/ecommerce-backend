@@ -1,5 +1,7 @@
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 
+const { NODE_ENV } = require("../config/server_config");
+
 const UserService = require("../services/user_service");
 const UserRepository = require("../repository/user_repository");
 
@@ -52,7 +54,31 @@ async function remove(req, res) {
   }
 }
 
+async function login(req, res) {
+  try {
+    const response = await userService.login(req.body);
+
+    res.cookie("token", response, {
+      httpOnlly: true,
+      secure: NODE_ENV == "production",
+    });
+
+    return res
+      .status(StatusCodes.OK)
+      .json(
+        successResponse(
+          "user",
+          "Successfully signed in",
+          NODE_ENV == "production" ? true : response
+        )
+      );
+  } catch (error) {
+    res.status(error.statusCode).json(errorResponse(error.reason, error));
+  }
+}
+
 module.exports = {
+  login,
   create,
   remove,
   fetchAll,

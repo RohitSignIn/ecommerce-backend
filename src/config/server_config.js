@@ -10,6 +10,9 @@ const DB_ALTER = process.env.DB_ALTER;
 const DB_FORCE = process.env.DB_FORCE;
 const DIALECT = process.env.DIALECT;
 const SALT_ROUND = process.env.SALT_ROUND;
+const JWT_SECRET = process.env.JWT_SECRET;
+const TOKEN_EXPIRY = process.env.TOKEN_EXPIRY;
+const NODE_ENV = process.env.NODE_ENV;
 
 module.exports = {
   PORT,
@@ -21,4 +24,7 @@ module.exports = {
   DB_FORCE,
   DIALECT,
   SALT_ROUND,
+  JWT_SECRET,
+  TOKEN_EXPIRY,
+  NODE_ENV,
 };
