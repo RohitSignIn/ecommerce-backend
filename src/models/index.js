@@ -20,4 +20,6 @@ module.exports = {
   categoryModel,
   productModel,
   userModel,
+  cartModel,
+  cartProductModel,
 };

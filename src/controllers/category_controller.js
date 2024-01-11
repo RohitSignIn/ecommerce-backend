@@ -8,17 +8,6 @@ const successResponse = require("../utils/success_response");
 
 const categoryService = new CategoryService(new CategoryRepository());
 
-async function create(req, res) {
-  try {
-    const response = await categoryService.create(req.body);
-    return res
-      .status(StatusCodes.CREATED)
-      .json(successResponse("Category", ReasonPhrases.CREATED, response));
-  } catch (error) {
-    res.status(error.statusCode).json(errorResponse(error.reason, error));
-  }
-}
-
 async function fetchAll(req, res) {
   try {
     const response = await categoryService.fetchAll();
@@ -43,6 +32,17 @@ async function fetchProductsByCategory(req, res) {
   }
 }
 
+async function create(req, res) {
+  try {
+    const response = await categoryService.create(req.body);
+    return res
+      .status(StatusCodes.CREATED)
+      .json(successResponse("Category", ReasonPhrases.CREATED, response));
+  } catch (error) {
+    res.status(error.statusCode).json(errorResponse(error.reason, error));
+  }
+}
+
 async function remove(req, res) {
   try {
     const response = await categoryService.remove(req.params.id);
@@ -55,8 +55,8 @@ async function remove(req, res) {
 }
 
 module.exports = {
-  create,
-  remove,
   fetchAll,
   fetchProductsByCategory,
+  create,
+  remove,
 };

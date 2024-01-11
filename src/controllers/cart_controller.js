@@ -1,19 +1,19 @@
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 
-const ProductService = require("../services/product_service");
-const ProductRepository = require("../repository/product_repository");
+const CartService = require("../services/cart_service");
+const CartRepository = require("../repository/cart_repository");
 
 const errorResponse = require("../utils/error_response");
 const successResponse = require("../utils/success_response");
 
-const productService = new ProductService(new ProductRepository());
+const cartService = new CartService(new CartRepository());
 
 async function fetchAll(req, res) {
   try {
-    const response = await productService.fetchAll();
+    const response = await cartService.fetchAll();
     return res
       .status(StatusCodes.OK)
-      .json(successResponse("Product", ReasonPhrases.OK, response));
+      .json(successResponse("Cart", ReasonPhrases.OK, response));
   } catch (error) {
     res.status(error.statusCode).json(errorResponse(error.reason, error));
   }
@@ -21,10 +21,10 @@ async function fetchAll(req, res) {
 
 async function fetchById(req, res) {
   try {
-    const response = await productService.fetchById(req.params.id);
+    const response = await cartService.fetchById(req.params.id);
     return res
       .status(StatusCodes.OK)
-      .json(successResponse("Product", ReasonPhrases.OK, response));
+      .json(successResponse("Cart", ReasonPhrases.OK, response));
   } catch (error) {
     res.status(error.statusCode).json(errorResponse(error.reason, error));
   }
@@ -32,10 +32,10 @@ async function fetchById(req, res) {
 
 async function create(req, res) {
   try {
-    const response = await productService.create(req.body);
+    const response = await cartService.create(req.body);
     return res
       .status(StatusCodes.CREATED)
-      .json(successResponse("Product", ReasonPhrases.CREATED, response));
+      .json(successResponse("Cart", ReasonPhrases.CREATED, response));
   } catch (error) {
     res.status(error.statusCode).json(errorResponse(error.reason, error));
   }
@@ -43,10 +43,10 @@ async function create(req, res) {
 
 async function remove(req, res) {
   try {
-    const response = await productService.remove(req.params.id);
+    const response = await cartService.remove(req.params.id);
     return res
       .status(StatusCodes.ACCEPTED)
-      .json(successResponse("Product", "Deleted Successfully", response));
+      .json(successResponse("Cart", "Deleted Successfully", response));
   } catch (error) {
     res.status(error.statusCode).json(errorResponse(error.reason, error));
   }

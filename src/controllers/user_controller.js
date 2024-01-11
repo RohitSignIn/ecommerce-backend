@@ -10,17 +10,6 @@ const successResponse = require("../utils/success_response");
 
 const userService = new UserService(new UserRepository());
 
-async function create(req, res) {
-  try {
-    const response = await userService.create(req.body);
-    return res
-      .status(StatusCodes.CREATED)
-      .json(successResponse("user", ReasonPhrases.CREATED, response));
-  } catch (error) {
-    res.status(error.statusCode).json(errorResponse(error.reason, error));
-  }
-}
-
 async function fetchAll(req, res) {
   try {
     const response = await userService.fetchAll();
@@ -38,6 +27,17 @@ async function fetchById(req, res) {
     return res
       .status(StatusCodes.OK)
       .json(successResponse("user", ReasonPhrases.OK, response));
+  } catch (error) {
+    res.status(error.statusCode).json(errorResponse(error.reason, error));
+  }
+}
+
+async function create(req, res) {
+  try {
+    const response = await userService.create(req.body);
+    return res
+      .status(StatusCodes.CREATED)
+      .json(successResponse("user", ReasonPhrases.CREATED, response));
   } catch (error) {
     res.status(error.statusCode).json(errorResponse(error.reason, error));
   }
@@ -78,9 +78,9 @@ async function login(req, res) {
 }
 
 module.exports = {
-  login,
-  create,
-  remove,
   fetchAll,
   fetchById,
+  create,
+  remove,
+  login,
 };

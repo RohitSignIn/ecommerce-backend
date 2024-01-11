@@ -6,6 +6,11 @@ const cartProductModel = DB.define(
   {
     // cartId - auto from sequelize relation
     // productId - auto from sequelize relation
+    quantity: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      default: 1,
+    },
   },
   { timestamps: false }
 );
