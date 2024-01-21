@@ -45,10 +45,10 @@ class UserService {
       }
 
       response = response.map((val) => {
-        console.log(val);
         delete val.dataValues.password;
         return val;
       });
+
       return response;
     } catch (error) {
       console.log("User Service error" + error);

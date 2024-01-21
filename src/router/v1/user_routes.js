@@ -1,4 +1,6 @@
 const userRoute = require("express").Router();
+const isLoggedIn = require("../../middleware/auth_middleware");
+
 const {
   login,
   create,
@@ -7,10 +9,11 @@ const {
   remove,
 } = require("../../controllers/user_controller");
 
-userRoute.post("/", create);
 userRoute.get("/", fetchAll);
 userRoute.get("/:id", fetchById);
-userRoute.delete("/:id", remove);
+userRoute.post("/", create);
+
+userRoute.delete("/:id", isLoggedIn, remove);
 
 // Login
 userRoute.post("/login", login);

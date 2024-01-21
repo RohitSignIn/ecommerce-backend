@@ -1,4 +1,5 @@
 const cartRoute = require("express").Router();
+const isLoggedIn = require("../../middleware/auth_middleware");
 
 const {
   fetchAll,
@@ -9,7 +10,8 @@ const {
 
 cartRoute.get("/", fetchAll);
 cartRoute.get("/:id", fetchById);
-cartRoute.post("/", create);
-cartRoute.delete("/:id", remove);
+
+cartRoute.post("/", isLoggedIn, create);
+cartRoute.delete("/:id", isLoggedIn, remove);
 
 module.exports = cartRoute;

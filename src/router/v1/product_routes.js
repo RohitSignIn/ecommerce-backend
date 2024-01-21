@@ -1,4 +1,5 @@
 const productRoute = require("express").Router();
+const isLoggedIn = require("../../middleware/auth_middleware");
 
 const {
   create,
@@ -7,9 +8,10 @@ const {
   remove,
 } = require("../../controllers/product_controller");
 
-productRoute.post("/", create);
 productRoute.get("/", fetchAll);
 productRoute.get("/:id", fetchById);
-productRoute.delete("/:id", remove);
+
+productRoute.post("/", isLoggedIn, create);
+productRoute.delete("/:id", isLoggedIn, remove);
 
 module.exports = productRoute;

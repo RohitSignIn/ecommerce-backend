@@ -6,10 +6,12 @@ const {
   remove,
   fetchProductsByCategory,
 } = require("../../controllers/category_controller");
+const isLoggedIn = require("../../middleware/auth_middleware");
 
-categoryRoute.post("/", create);
 categoryRoute.get("/", fetchAll);
 categoryRoute.get("/:name", fetchProductsByCategory);
-categoryRoute.delete("/:id", remove);
+
+categoryRoute.post("/", isLoggedIn, create);
+categoryRoute.delete("/:id", isLoggedIn, remove);
 
 module.exports = categoryRoute;

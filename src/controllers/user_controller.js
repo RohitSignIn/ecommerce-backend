@@ -59,7 +59,7 @@ async function login(req, res) {
     const response = await userService.login(req.body);
 
     res.cookie("token", response, {
-      httpOnlly: true,
+      httpOnly: true,
       secure: NODE_ENV == "production",
     });
 
