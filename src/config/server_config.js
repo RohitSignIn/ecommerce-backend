@@ -2,6 +2,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const PORT = process.env.PORT | 3036;
+const DB_PORT = process.env.DB_PORT;
 const DB_NAME = process.env.DB_NAME;
 const DB_USER = process.env.DB_USER;
 const DB_PASS = process.env.DB_PASS;
@@ -16,6 +17,7 @@ const NODE_ENV = process.env.NODE_ENV;
 
 module.exports = {
   PORT,
+  DB_PORT,
   DB_NAME,
   DB_USER,
   DB_PASS,

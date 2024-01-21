@@ -7,6 +7,7 @@ const InternalServerError = require("../errors/internal_server_error");
 const NotFoundError = require("../errors/not_found_error");
 const UnauthorizedError = require("../errors/unauthorized_error");
 const ValidationError = require("../errors/validation_error");
+const UserConflictError = require("../errors/user_conflict_error");
 
 class UserService {
   constructor(userRepository) {
@@ -19,19 +20,35 @@ class UserService {
         user.email,
         user.password
       );
+      delete response.dataValues.password;
       return response;
     } catch (error) {
-      console.log("User Service error" + error);
-      if (error.name === "SequelizeValidationError")
+      console.log("User Service error" + error.name);
+      if (error.name === "UserConflictError") {
+        throw error;
+      }
+      if (error.name === "SequelizeValidationError") {
         throw new ValidationError(error.message);
+      }
+      if (error.name === "SequelizeUniqueConstraintError") {
+        throw new UserConflictError();
+      }
       throw new InternalServerError();
     }
   }
 
   async fetchAll() {
     try {
-      const response = await this.userRepository.fetch();
-      if (!response.length) throw new NotFoundError("User", "fetch", "all");
+      let response = await this.userRepository.fetch();
+      if (!response.length) {
+        throw new NotFoundError("User", "fetch", "all");
+      }
+
+      response = response.map((val) => {
+        console.log(val);
+        delete val.dataValues.password;
+        return val;
+      });
       return response;
     } catch (error) {
       console.log("User Service error" + error);
@@ -46,6 +63,7 @@ class UserService {
       if (!response) {
         throw new NotFoundError("User", "id", id);
       }
+      delete response.dataValues.password;
       return response;
     } catch (error) {
       console.log("User Service error" + error);
@@ -57,6 +75,7 @@ class UserService {
   async remove(id) {
     try {
       const response = await this.userRepository.remove(id);
+      delete response.dataValues.password;
       return response;
     } catch (error) {
       console.log("User Service error" + error);

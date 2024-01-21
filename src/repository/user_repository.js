@@ -32,7 +32,7 @@ class UserRepository {
 
   async fetchByEmail(email) {
     try {
-      const response = await userModel.findOne({ where: { email: email } });
+      const response = await userModel.findOne({ where: { email } });
       return response;
     } catch (error) {
       console.log("User Repository Error: " + error);
