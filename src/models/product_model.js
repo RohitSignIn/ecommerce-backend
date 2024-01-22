@@ -20,7 +20,7 @@ const productModel = DB.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    // categoryId - auto from sequelize relation
+    // categoryId - auto from sequelize association
   },
   { timestamps: false }
 );

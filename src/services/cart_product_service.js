@@ -2,14 +2,19 @@ const InternalServerError = require("../errors/internal_server_error");
 const NotFoundError = require("../errors/not_found_error");
 
 class CartProductService {
-  constructor(CartProductRepository) {
+  constructor(CartProductRepository, CartRepository) {
     this.CartProductRepository = CartProductRepository;
+    this.CartRepository = CartRepository;
   }
 
-  async update(data) {
+  async update(data, userId) {
     try {
-      const response = await this.CartProductRepository.create(
-        data.cartId,
+      let cartExist = await this.CartRepository.fetchByuserId(userId);
+      if (!cartExist) {
+        cartExist = await this.CartRepository.create(userId);
+      }
+      const response = await this.CartProductRepository.update(
+        cartExist.id,
         data.productId,
         data.shouldAdd
       );
@@ -20,9 +25,13 @@ class CartProductService {
     }
   }
 
-  async fetch(cartId) {
+  async fetch(userId) {
     try {
-      const response = await this.CartProductRepository.fetch(cartId);
+      let cartExist = await this.CartRepository.fetchByuserId(userId);
+      if (!cartExist) {
+        cartExist = await this.CartRepository.create(userId);
+      }
+      const response = await this.CartProductRepository.fetch(cartExist.id);
       if (!response) {
         throw new NotFoundError("Cart Service", "fetch", cartId);
       }
@@ -34,9 +43,9 @@ class CartProductService {
     }
   }
 
-  async remove(cartId) {
+  async remove(userId) {
     try {
-      const response = await this.CartProductRepository.remove(cartId);
+      const response = await this.CartProductRepository.remove(userId);
       return response;
     } catch (error) {
       console.log("CartProduct Service error" + error);

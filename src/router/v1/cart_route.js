@@ -8,8 +8,8 @@ const {
   remove,
 } = require("../../controllers/cart_controller");
 
-cartRoute.get("/", fetchAll);
-cartRoute.get("/:id", fetchById);
+cartRoute.get("/", isLoggedIn, fetchAll);
+cartRoute.get("/:id", isLoggedIn, fetchById);
 
 cartRoute.post("/", isLoggedIn, create);
 cartRoute.delete("/:id", isLoggedIn, remove);

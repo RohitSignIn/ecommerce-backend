@@ -1,6 +1,7 @@
 const cartProductModel = require("../models/cart_product_model");
 const NotFoundError = require("../errors/not_found_error");
 const { Op } = require("sequelize");
+const { cartModel } = require("../models");
 
 class CartProductRepository {
   async fetch(cartId) {
@@ -15,11 +16,13 @@ class CartProductRepository {
 
   async update(cartId, productId, shouldAdd) {
     try {
-      const response = await cartProductModel.findAll({ where: { cartId } });
+      const response = await cartProductModel.findOne({
+        where: { [Op.and]: [{ cartId }, { productId }] },
+      });
 
       if (shouldAdd) {
         if (!response) {
-          await cartProductModel.create({ cartId, productId });
+          await cartProductModel.create({ cartId, productId, quantity: 1 });
         } else {
           response.increment("quantity", { by: 1 });
         }
@@ -39,7 +42,7 @@ class CartProductRepository {
         }
       }
 
-      const updatedCart = cartProductModel.findAll({ where: { cartId } });
+      const updatedCart = await cartProductModel.findAll({ where: { cartId } });
 
       return {
         cartId: cartId,
@@ -50,13 +53,13 @@ class CartProductRepository {
     }
   }
 
-  async remove(cartId) {
+  async remove(userId) {
     try {
-      const cart = await cartModel.findOne({ where: { cartId } });
-      if (!cart) throw new NotFoundError("Cart", "id", cartId);
+      const cart = await cartModel.findOne({ where: { userId } });
+      if (!cart) throw new NotFoundError("Cart user", "id", userId);
       const response = await cart.destroy();
-      return response;
       if (!response) throw new NotFoundError("Cart", "cart", id);
+      return response;
     } catch (error) {
       throw error;
     }

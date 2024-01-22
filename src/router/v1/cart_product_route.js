@@ -7,9 +7,9 @@ const {
   remove,
 } = require("../../controllers/cart_product_controller");
 
-cartProductRoute.get("/:id", fetch);
+cartProductRoute.get("/", isLoggedIn, fetch);
 
-cartProductRoute.post("/", isLoggedIn, update);
-cartProductRoute.delete("/:id", isLoggedIn, remove);
+cartProductRoute.post("/", isLoggedIn, isLoggedIn, update);
+cartProductRoute.delete("/", isLoggedIn, isLoggedIn, remove);
 
 module.exports = cartProductRoute;

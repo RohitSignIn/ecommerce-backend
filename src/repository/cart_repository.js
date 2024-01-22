@@ -22,6 +22,16 @@ class CartRepository {
     }
   }
 
+  async fetchByuserId(userId) {
+    try {
+      const response = await cartModel.findOne({ where: { userId } });
+      if (!response) return false;
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async create(userId) {
     try {
       const response = await cartModel.create({ userId });

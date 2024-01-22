@@ -1,4 +1,6 @@
 const { ReasonPhrases, StatusCodes } = require("http-status-codes");
+var jwt = require("jsonwebtoken");
+
 const { JWT_SECRET } = require("../config/server_config");
 const UnauthorizedError = require("../errors/unauthorized_error");
 const errorResponse = require("../utils/error_response");
@@ -17,7 +19,7 @@ const isLoggedIn = (req, res, next) => {
 
   let user;
   try {
-    user = jwt.verify(token, JWT_SECRET);
+    user = jwt.verify(req.cookies.token, JWT_SECRET);
   } catch (error) {
     return res
       .status(StatusCodes.UNAUTHORIZED)
